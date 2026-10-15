@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>دورة أبطال شبرا</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>👑</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#07090f;--panel:#10141f;--line:#232a3b;--y:#ffc61a;--ink:#f4f5f8;--mute:#98a0b3;--bad:#ff5a5a;--ok:#46d37c}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 500px at 80% -10%,#1b2540 0,transparent 60%),var(--bg);color:var(--ink);font-family:Cairo,system-ui,sans-serif;line-height:1.6;min-height:100vh}
+a{color:inherit}
+nav{display:flex;gap:6px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#07090fee;z-index:5;flex-wrap:wrap}
+nav b{font-weight:900;color:var(--y);margin-inline-end:auto;font-size:1.15rem}
+nav a,nav button{background:none;border:0;color:var(--ink);font:inherit;padding:6px 12px;border-radius:8px;cursor:pointer;text-decoration:none}
+nav a.on{background:var(--y);color:#000;font-weight:700}
+main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+h1,h2{font-weight:900;margin:0 0 .4em}
+.hero{padding:34px 8px 10px}
+.hero h1{font-size:clamp(2.6rem,9vw,5.5rem);line-height:1.05;display:inline-block;background:var(--y);color:#000;padding:.05em .35em;transform:rotate(-1.5deg);clip-path:polygon(0 8%,3% 0,97% 4%,100% 0,98% 92%,100% 100%,2% 96%,0 100%)}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0}
+.facts div{border:1px solid var(--line);background:var(--panel);padding:8px 16px;border-radius:10px}
+.facts b{color:var(--y);font-size:1.2rem}
+.btn{background:var(--y);color:#000;border:0;font:inherit;font-weight:900;padding:10px 22px;border-radius:10px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.ghost{background:none;color:var(--ink);border:1px solid var(--line);font-weight:700}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px;margin:14px 0}
+input[type=text],input[type=email],input[type=password],input[type=tel],input[type=number],select{width:100%;background:#0a0d15;border:1px solid var(--line);color:var(--ink);padding:9px 12px;border-radius:8px;font:inherit}
+input:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--y);outline-offset:2px}
+label{display:block;font-size:.85rem;color:var(--mute);margin:8px 0 3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.member{border-inline-start:4px solid var(--line)}
+.member.ok{border-color:var(--ok)}.member.bad{border-color:var(--bad)}
+.err{color:var(--bad);font-size:.85rem;min-height:1.2em}
+.good{color:var(--ok)}
+.msg{padding:10px 14px;border-radius:10px;background:#2a1215;border:1px solid var(--bad);margin:10px 0}
+.msg.okm{background:#10261a;border-color:var(--ok)}
+/* scoreboard */
+.board{background:linear-gradient(180deg,#141a2a,#0b0f19);border:1px solid var(--y);border-radius:18px;padding:22px;text-align:center;margin:18px 0;position:relative;overflow:hidden}
+.board .row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px}
+.board .tn{font-size:clamp(1.1rem,3.5vw,2rem);font-weight:900}
+.board .sc{font-size:clamp(2.6rem,10vw,5.5rem);font-weight:900;color:var(--y);font-variant-numeric:tabular-nums;letter-spacing:.04em}
+.live{display:inline-block;background:var(--bad);color:#fff;padding:1px 12px;border-radius:99px;font-size:.8rem;font-weight:700;animation:pulse 1.3s infinite}
+@keyframes pulse{50%{opacity:.35}}
+.pop{animation:pop .7s}
+@keyframes pop{30%{transform:scale(1.35);color:#fff;text-shadow:0 0 30px var(--y)}}
+/* bracket */
+.bracket{display:grid;grid-template-columns:repeat(3,minmax(220px,1fr));gap:22px;overflow-x:auto;padding-bottom:10px}
+.col{display:flex;flex-direction:column;justify-content:space-around;gap:16px}
+.col h3{text-align:center;margin:0;color:var(--mute);font-size:.95rem}
+.m{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;position:relative}
+.m .t{display:flex;justify-content:space-between;padding:9px 14px;font-weight:700}
+.m .t:first-child{animation:inR .7s both}.m .t:nth-child(2){animation:inL .7s .15s both}
+@keyframes inR{from{transform:translateX(60px);opacity:0}}
+@keyframes inL{from{transform:translateX(-60px);opacity:0}}
+.m .vs{position:absolute;inset-inline-end:50%;top:50%;transform:translate(50%,-50%);background:var(--y);color:#000;font-weight:900;font-size:.7rem;padding:0 7px;border-radius:99px;animation:clash 1s .5s both}
+@keyframes clash{0%{transform:translate(50%,-50%) scale(0)}60%{transform:translate(50%,-50%) scale(1.6)}100%{transform:translate(50%,-50%) scale(1)}}
+.m.liveM{border-color:var(--bad);box-shadow:0 0 0 1px var(--bad),0 0 24px #ff5a5a44}
+.t.w{background:#ffc61a1f;color:var(--y)}
+.t.w::before{content:"🏆";margin-inline-end:6px}
+.t.l{opacity:.45}
+.tbd{color:var(--mute);font-weight:400}
+.tbl{width:100%;border-collapse:collapse}.tbl td,.tbl th{padding:7px;border-bottom:1px solid var(--line);text-align:start;font-size:.9rem}
+.tag{padding:1px 9px;border-radius:99px;font-size:.75rem;border:1px solid var(--line)}
+.tag.selected{border-color:var(--ok);color:var(--ok)}.tag.rejected{color:var(--bad);border-color:var(--bad)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<nav id="nav"></nav>
+<main id="app"></main>
+
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+const SB_URL = (window.APP_CONFIG||{}).SUPABASE_URL, SB_KEY = (window.APP_CONFIG||{}).SUPABASE_KEY;
+const sb = supabase.createClient(SB_URL, SB_KEY);
+const app = document.getElementById('app');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const arDigits = s => s.replace(/[٠-٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d));
+const normPhone = v => { let d = arDigits(v).replace(/\D/g,''); if (d.startsWith('0020')) d = '0'+d.slice(4); else if (d.startsWith('20') && d.length===12) d = '0'+d.slice(2); return d; };
+const validNid = v => /^[23]\d{13}$/.test(v) && (() => {           // Egyptian national ID: century + valid birth date
+  const y = (v[0]==='2'?1900:2000) + +v.slice(1,3), mo = +v.slice(3,5), d = +v.slice(5,7);
+  const dt = new Date(y, mo-1, d); return dt.getMonth()===mo-1 && dt.getDate()===d && y <= new Date().getFullYear()-12;
+})();
+let session = null, isAdmin = false, route = '';
+const prev = {};
+
+async function refreshAuth(){
+  session = (await sb.auth.getSession()).data.session;
+  isAdmin = false;
+  if (session) { const { data } = await sb.rpc('is_admin'); isAdmin = !!data; }
+}
+function drawNav(){
+  const link = (h,t) => `<a href="#/${h}" class="${route===h?'on':''}">${t}</a>`;
+  document.getElementById('nav').innerHTML = `<b>👑 أبطال شبرا</b>${link('','البطولة')}${link('register','سجّل فريقك')}${isAdmin?link('admin','الإدارة'):''}
+    ${session?'<button id="out">خروج</button>':''}`;
+  const o = document.getElementById('out'); if (o) o.onclick = async()=>{ await sb.auth.signOut(); await go(); };
+}
+async function go(){
+  const h = location.hash; let note = '';
+  if (/error_code=/.test(h)) { note = 'رابط التأكيد منتهي أو سبق استخدامه. جرّب تسجيل الدخول بنفس البريد، وإن لم تنجح أنشئ الحساب من جديد.'; history.replaceState(null,'',location.pathname); }
+  route = h.startsWith('#/') ? h.slice(2) : '';
+  await refreshAuth(); drawNav();
+  const [name, arg] = route.split('/');
+  try {
+    if (route === '') await home();
+    else if (name === 'register') await register();
+    else if (name === 'admin') await admin();
+    else if (name === 't') await teamPage(arg);
+    else app.innerHTML = '<p>الصفحة غير موجودة</p>';
+  } catch (e) { app.innerHTML = `<div class="msg">حدث خطأ: ${esc(e.message)}</div>`; }
+  if (note) app.insertAdjacentHTML('afterbegin', `<div class="msg">${note}</div>`);
+}
+addEventListener('hashchange', go);
+
+/* ================= PUBLIC: bracket + scoreboard ================= */
+async function home(){
+  const [t, m] = await Promise.all([sb.from('public_teams').select('*'), sb.from('matches').select('*')]);
+  const names = Object.fromEntries((t.data||[]).map(x=>[x.id,x.name]));
+  const ms = m.data || [];
+  const hero = `<section class="hero"><h1>دورة أبطال شبرا</h1>
+    <h2 style="margin-top:14px">المنافسة تبدأ.. والأبطال يظهرون</h2>
+    <div class="facts"><div>الجائزة <b>10,000 جنيه</b></div><div>عدد الفرق <b>8</b> فقط</div>
+    <div>📍 مركز شباب جزيرة بدران بشبرا</div><div>بدون رسوم اشتراك أو تسجيل</div></div>
+    <a class="btn" href="#/register">سجّل فريقك</a> <small style="color:var(--mute)">تحت رعاية عمر اشرف</small></section>`;
+  if (!ms.length) { app.innerHTML = hero + `<div class="panel">لم يتم اختيار الفرق بعد. سيظهر الجدول هنا فور إعلان الفرق الثمانية.</div>`; return; }
+  const feat = ms.find(x=>x.status==='live') || [...ms].filter(x=>x.status==='done').sort((a,b)=>b.id-a.id)[0] || ms.find(x=>x.team_a&&x.team_b);
+  const nm = id => id ? esc(names[id]) : '<span class="tbd">سيتحدد</span>';
+  const label = {QF:'ربع النهائي',SF:'نصف النهائي',F:'النهائي'};
+  let board = '';
+  if (feat) {
+    const k = prev['b'+feat.id], ch = k && (k[0]!==feat.score_a || k[1]!==feat.score_b);
+    board = `<div class="board"><div>${feat.status==='live'?'<span class="live">مباشر</span>':feat.status==='done'?'انتهت المباراة':'المباراة القادمة'} · ${label[feat.round]}</div>
+      <div class="row"><div class="tn">${nm(feat.team_a)}</div>
+      <div class="sc ${ch?'pop':''}">${feat.score_a} : ${feat.score_b}</div><div class="tn">${nm(feat.team_b)}</div></div></div>`;
+    prev['b'+feat.id] = [feat.score_a, feat.score_b];
+  }
+  const col = r => `<div class="col"><h3>${label[r]}</h3>${ms.filter(x=>x.round===r).sort((a,b)=>a.slot-b.slot).map(x=>{
+    const cls = id => x.winner ? (x.winner===id?'w':'l') : '';
+    const both = x.team_a && x.team_b;
+    return `<div class="m ${x.status==='live'?'liveM':''}"><div class="t ${cls(x.team_a)}"><span>${nm(x.team_a)}</span><span>${both?x.score_a:''}</span></div>
+      <div class="t ${cls(x.team_b)}"><span>${nm(x.team_b)}</span><span>${both?x.score_b:''}</span></div>${both?'<span class="vs">VS</span>':''}</div>`}).join('')}</div>`;
+  app.innerHTML = hero + board + `<div class="bracket">${col('QF')}${col('SF')}${col('F')}</div>`;
+}
+sb.channel('m').on('postgres_changes',{event:'*',schema:'public',table:'matches'},()=>{ if(route==='') home(); }).subscribe();
+setInterval(()=>{ if(route==='') home(); }, 20000);
+
+/* ================= AUTH (captain) ================= */
+function authForm(){
+  app.innerHTML = `<div class="panel" style="max-width:420px;margin:30px auto"><h2>حساب الكابتن</h2>
+    <label>البريد الإلكتروني</label><input type="email" id="em" autocomplete="email">
+    <label>كلمة المرور (6 أحرف على الأقل)</label><input type="password" id="pw" autocomplete="current-password">
+    <div class="err" id="ae"></div>
+    <button class="btn" id="li">دخول</button> <button class="btn ghost" id="su">إنشاء حساب</button></div>`;
+  const run = async fn => { const r = await fn({email:em.value.trim(),password:pw.value});
+    if (r.error) ae.textContent = r.error.message; else if (!r.data.session) ae.textContent='تحقق من بريدك لتأكيد الحساب ثم سجّل الدخول.'; else go(); };
+  li.onclick = () => run(x=>sb.auth.signInWithPassword(x)); su.onclick = () => run(x=>sb.auth.signUp(x));
+}
+
+/* ================= REGISTRATION ================= */
+async function register(){
+  if (!session) return authForm();
+  const { data: mine } = await sb.from('teams').select('id,name,status').maybeSingle();
+  if (mine) return showShare(mine.id, mine.name, false);
+  const roles = ['الكابتن', ...[1,2,3,4,5].map(i=>'اللاعب '+i)];
+  app.innerHTML = `<h2>تسجيل فريق</h2><p style="color:var(--mute)">يجب إدخال بيانات الكابتن و5 لاعبين (6 أفراد). الرقم القومي (14 رقمًا) وصورة البطاقة إلزاميان لكل فرد.</p>
+  <div class="panel"><div class="grid"><div><label>اسم الفريق</label><input type="text" id="tn" maxlength="40"></div>
+  <div><label>هاتف الكابتن</label><input type="tel" id="ph" placeholder="01xxxxxxxxx"></div></div></div>
+  <div class="grid">${roles.map((r,i)=>`<div class="panel member" id="mb${i}"><b>${r}</b>
+    <label>الاسم الكامل</label><input type="text" class="nm">
+    <label>الرقم القومي</label><input type="text" class="nid" inputmode="numeric" maxlength="14">
+    <label>صورة البطاقة (وجه الصورة)</label><input type="file" class="ph" accept="image/*">
+    <div class="err"></div></div>`).join('')}</div>
+  <div class="msg" id="fe" hidden></div>
+  <button class="btn" id="go" disabled>إرسال الطلب</button> <span id="st" style="color:var(--mute)"></span>`;
+  const cards = [...document.querySelectorAll('.member')], taken = new Set();
+  const ok = new Array(6).fill(false);
+  async function check(){
+    const ids = cards.map(c=>arDigits(c.querySelector('.nid').value.trim()));
+    const valid = ids.filter(validNid);
+    if (valid.length) { const { data } = await sb.rpc('taken_ids',{ids:valid}); taken.clear(); (data||[]).forEach(x=>taken.add(x)); }
+    cards.forEach((c,i)=>{
+      const id = ids[i], e = c.querySelector('.err'); let m = '';
+      if (id && !validNid(id)) m = 'رقم قومي غير صحيح';
+      else if (id && ids.indexOf(id)!==i) m = 'الرقم مكرر داخل الفريق';
+      else if (taken.has(id)) m = 'هذا الرقم مسجل بالفعل في فريق آخر';
+      e.textContent = m;
+      const full = c.querySelector('.nm').value.trim().length>=3 && validNid(id) && !m && c.querySelector('.ph').files.length;
+      ok[i] = !!full; c.className = 'panel member ' + (m?'bad':full?'ok':'');
+    });
+    const missing = [];
+    if (tn.value.trim().length < 2) missing.push('اسم الفريق');
+    if (!/^01\d{9}$/.test(normPhone(ph.value))) missing.push('هاتف الكابتن (11 رقمًا يبدأ بـ 01)');
+    cards.forEach((c,i)=>{ if(!ok[i]) missing.push(roles[i]); });
+    go.disabled = missing.length > 0;
+    st.textContent = missing.length ? 'ناقص: ' + missing.join('، ') : '';
+  }
+  document.querySelectorAll('input').forEach(el=>el.addEventListener(el.type==='file'?'change':'input', ()=>{ clearTimeout(window._t); window._t=setTimeout(check,350); }));
+  go.onclick = async () => {
+    go.disabled = true; fe.hidden = true; st.textContent = 'جارٍ رفع الصور...';
+    try {
+      const uid = session.user.id, members = [];
+      for (const c of cards) {
+        const nid = arDigits(c.querySelector('.nid').value.trim()), f = c.querySelector('.ph').files[0];
+        const path = `${uid}/${nid}-${Date.now()}`;
+        const up = await sb.storage.from('id-photos').upload(path, f, {contentType:f.type});
+        if (up.error) throw up.error;
+        members.push({name:c.querySelector('.nm').value, nid, photo:path});
+      }
+      st.textContent = 'جارٍ التسجيل...';
+      const { data, error } = await sb.rpc('register_team',{p_name:tn.value,p_phone:normPhone(ph.value),p_members:members});
+      if (error) throw error;
+      showShare(data, tn.value, true);
+    } catch (e) {
+      const dup = /members_national_id_key|duplicate/.test(e.message||'');
+      fe.hidden = false; fe.textContent = dup ? 'تم رفض الطلب: أحد الأرقام القومية مسجل بالفعل في فريق آخر.' : /teams_name_key/.test(e.message)?'اسم الفريق مستخدم بالفعل.':e.message;
+      st.textContent=''; check();
+    }
+  };
+}
+
+/* ================= SHARE LINK + QR ================= */
+function showShare(id, name, fresh){
+  const url = location.origin + location.pathname + '#/t/' + id;
+  app.innerHTML = `<div class="panel" style="max-width:520px;margin:20px auto;text-align:center">
+    ${fresh?'<div class="msg okm">تم استلام طلب فريقك. سيراجع المنظمون البيانات والصور.</div>':''}
+    <h2>${esc(name)}</h2><div id="qr" style="display:inline-block;background:#fff;padding:10px;border-radius:10px"></div>
+    <p><input type="text" readonly value="${esc(url)}" onclick="this.select()"></p>
+    <button class="btn" id="cp">نسخ الرابط</button> <a class="btn ghost" href="#/t/${id}">صفحة حالة الفريق</a></div>`;
+  new QRCode(document.getElementById('qr'),{text:url,width:200,height:200});
+  document.getElementById('cp').onclick = () => navigator.clipboard.writeText(url).then(()=>cp.textContent='تم النسخ ✓');
+}
+async function teamPage(id){
+  const { data } = await sb.rpc('team_status',{tid:id});
+  if (!data) { app.innerHTML = '<div class="panel">لم يتم العثور على الفريق.</div>'; return; }
+  const s = {pending:'قيد المراجعة',selected:'تم اختياره للبطولة 🎉',rejected:'لم يتم اختياره'}[data.status];
+  app.innerHTML = `<div class="panel" style="max-width:520px;margin:20px auto;text-align:center"><h2>${esc(data.name)}</h2>
+    <p>الحالة: <b class="${data.status==='selected'?'good':''}">${s}</b></p><p>الأفراد: ${data.members}/6 · تم التحقق من هوية ${data.verified}</p></div>`;
+}
+
+/* ================= ADMIN ================= */
+async function admin(){
+  if (!session) return authForm();
+  if (!isAdmin) { app.innerHTML = '<div class="msg">هذا الحساب ليس لديه صلاحية الإدارة.</div>'; return; }
+  const [{data:teams},{data:ms}] = await Promise.all([
+    sb.from('teams').select('*, members(*)').order('created_at'), sb.from('matches').select('*').order('id')]);
+  const nm = Object.fromEntries(teams.map(t=>[t.id,t.name]));
+  app.innerHTML = `<h2>الطلبات (${teams.length})</h2>
+  <p style="color:var(--mute)">حدّد 8 فرق بالضبط ثم أنشئ الجدول. إنشاء الجدول من جديد يمسح النتائج الحالية.</p>
+  ${teams.map(t=>`<div class="panel"><label style="display:flex;gap:10px;align-items:center;margin:0;color:var(--ink);font-size:1.05rem">
+    <input type="checkbox" class="pick" value="${t.id}" ${t.status==='selected'?'checked':''} style="width:auto"> <b>${esc(t.name)}</b>
+    <span class="tag ${t.status}">${t.status}</span> <span style="color:var(--mute)">${esc(t.phone)}</span></label>
+    <table class="tbl">${t.members.map(m=>`<tr><td>${m.role==='captain'?'كابتن':'لاعب'}</td><td>${esc(m.full_name)}</td><td dir="ltr" style="text-align:end">${esc(m.national_id)}</td>
+    <td><button class="btn ghost ph" data-p="${esc(m.id_photo_path)}">الصورة</button>
+    <label style="display:inline;margin:0"><input type="checkbox" class="vf" data-id="${m.id}" ${m.verified?'checked':''} style="width:auto"> تم التحقق</label></td></tr>`).join('')}</table></div>`).join('')}
+  <button class="btn" id="mk">اعتماد الفرق الثمانية وإنشاء الجدول</button><div class="err" id="ae"></div>
+  <h2 style="margin-top:34px">المباريات</h2>
+  ${ms.map(m=>`<div class="panel"><b>${{QF:'ربع النهائي',SF:'نصف النهائي',F:'النهائي'}[m.round]} ${m.slot}</b> · ${esc(nm[m.team_a]||'؟')} ضد ${esc(nm[m.team_b]||'؟')} <span class="tag">${m.status}</span>
+    ${m.team_a&&m.team_b&&m.status!=='done'?`<div style="display:flex;gap:8px;margin-top:8px;align-items:center"><input type="number" min="0" value="${m.score_a}" id="a${m.id}" style="width:80px"> : <input type="number" min="0" value="${m.score_b}" id="b${m.id}" style="width:80px">
+    <button class="btn ghost" data-live="${m.id}">بث مباشر</button><button class="btn" data-fin="${m.id}">نتيجة نهائية</button></div>`:''}</div>`).join('')}`;
+  document.querySelectorAll('.vf').forEach(c=>c.onchange=()=>sb.from('members').update({verified:c.checked}).eq('id',c.dataset.id));
+  document.querySelectorAll('.ph').forEach(b=>b.onclick=async()=>{ const {data}=await sb.storage.from('id-photos').createSignedUrl(b.dataset.p,120); if(data) open(data.signedUrl,'_blank'); });
+  document.getElementById('mk').onclick = async()=>{
+    const ids=[...document.querySelectorAll('.pick:checked')].map(x=>x.value);
+    if (ids.length!==8) return document.getElementById('ae').textContent=`المحدد ${ids.length} فرق. يجب اختيار 8 بالضبط.`;
+    const {error}=await sb.rpc('select_teams',{ids}); if(error) return document.getElementById('ae').textContent=error.message; admin();
+  };
+  document.querySelectorAll('[data-live]').forEach(b=>b.onclick=async()=>{ const i=b.dataset.live;
+    await sb.from('matches').update({status:'live',score_a:+document.getElementById('a'+i).value,score_b:+document.getElementById('b'+i).value}).eq('id',i); admin(); });
+  document.querySelectorAll('[data-fin]').forEach(b=>b.onclick=async()=>{ const i=b.dataset.fin;
+    const {error}=await sb.rpc('set_result',{mid:+i,a:+document.getElementById('a'+i).value,b:+document.getElementById('b'+i).value});
+    if(error) alert(error.message==='no_draws'?'لا يمكن إنهاء المباراة بالتعادل':error.message); else admin(); });
+}
+go();
+</script>
+</body>
+</html>
