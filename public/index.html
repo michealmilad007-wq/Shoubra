@@ -226,12 +226,13 @@ setInterval(()=>{ if(route==='') home(); }, 20000);
 /* ================= AUTH (captain) ================= */
 function authForm(){
   app.innerHTML = `<div class="panel" style="max-width:420px;margin:30px auto"><h2>دخول</h2>
-    <label>رقم الهاتف (أو البريد الإلكتروني للإدارة)</label><input type="text" id="em" inputmode="tel" autocomplete="username">
-    <label>الرقم السري</label><input type="password" id="pw" autocomplete="current-password">
+    <label>رقم الهاتف (أو البريد الإلكتروني للإدارة)</label><input type="text" id="em" inputmode="tel" autocomplete="off">
+    <label>الرقم السري</label><input type="password" id="pw" autocomplete="new-password"><label style="display:flex;gap:8px;align-items:center;color:var(--mute)"><input type="checkbox" id="shw" style="width:auto;min-height:0"> إظهار الرقم السري</label>
     <div class="err" id="ae"></div><button class="btn" id="li">دخول</button>
     <p style="color:var(--mute);font-size:.9rem">لم تسجّل فريقك بعد؟ <a href="#/register" style="color:var(--y)">سجّل الآن</a></p></div>`;
+  shw.onchange = () => { pw.type = shw.checked ? 'text' : 'password'; };
   li.onclick = async () => { const v = em.value.trim();
-    const r = await sb.auth.signInWithPassword({ email: v.includes('@') ? v : phoneEmail(v), password: pw.value });
+    const r = await sb.auth.signInWithPassword({ email: v.includes('@') ? v : phoneEmail(v), password: v.includes('@') ? pw.value : arDigits(pw.value.trim()) });
     if (r.error) ae.textContent = 'رقم الهاتف أو الرقم السري غير صحيح'; else if (route === 'login') location.hash = '#/register'; else go(); };
 }
 
