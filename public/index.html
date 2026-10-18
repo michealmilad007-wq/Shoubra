@@ -82,6 +82,7 @@ main{padding-bottom:40px}
 .goal{position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(3rem,14vw,7rem);font-weight:900;color:var(--y);background:#000b;animation:goal 2.4s forwards;pointer-events:none;z-index:2}
 @keyframes goal{0%{opacity:0;transform:scale(.4)}15%{opacity:1;transform:scale(1.1)}80%{opacity:1}100%{opacity:0}}
 .scroll{overflow-x:auto}
+.navs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.navs .btn{padding:8px 16px;font-size:.9rem}
 .dec{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.dec input{flex:1 1 220px}
 .dec .btn{padding:8px 14px;font-size:.9rem}
 @media (prefers-reduced-motion:reduce){.goal{display:none}}
@@ -102,6 +103,7 @@ main{padding-bottom:40px}
  .col{scroll-snap-align:center}
  .m .t{padding:12px 14px}
  .dec .btn{flex:1 1 40%}
+ .navs .btn{flex:1 1 45%;width:auto!important;padding:12px 8px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
@@ -109,7 +111,7 @@ main{padding-bottom:40px}
 <body>
 <nav id="nav"></nav>
 <main id="app"></main>
-<footer class="foot"><div>تحت رعاية</div><div><b>👑 عمر اشرف 👑</b></div><div style="color:var(--mute);margin-top:4px">📍 مركز شباب جزيرة بدران بشبرا</div></footer>
+<footer class="foot"><div>تحت رعاية</div><div><b>👑 عمر اشرف 👑</b></div><div style="color:var(--mute);margin-top:4px">📍 مدرسة الحرية الرسمية - شارع فراج حميدة</div><div class="navs" style="justify-content:center"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.072349548339844,31.233665466308594" target="_blank" rel="noopener">🧭 ابدأ الملاحة</a><a class="btn ghost" href="https://www.google.com/maps?q=30.072349548339844,31.233665466308594&amp;z=17&amp;hl=en" target="_blank" rel="noopener">🗺️ افتح الخريطة</a></div></footer>
 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -198,7 +200,7 @@ async function home(){
   const hero = `<section class="hero"><div class="ball" aria-hidden="true">⚽</div><h1>دورة أبطال شبرا</h1>
     <h2 style="margin-top:14px">المنافسة تبدأ.. والأبطال يظهرون</h2>
     <div class="facts"><div>الجائزة <b>10,000 جنيه</b></div><div>عدد الفرق <b>8</b> فقط</div>
-    <div>📍 مركز شباب جزيرة بدران بشبرا</div><div>بدون رسوم اشتراك أو تسجيل</div></div>
+    <div style="flex:1 1 100%">📍 مدرسة الحرية الرسمية - شارع فراج حميدة<span class="navs"><a class="btn" href="https://www.google.com/maps/dir/?api=1&amp;destination=30.072349548339844,31.233665466308594" target="_blank" rel="noopener">🧭 ابدأ الملاحة</a><a class="btn ghost" href="https://www.google.com/maps?q=30.072349548339844,31.233665466308594&amp;z=17&amp;hl=en" target="_blank" rel="noopener">🗺️ افتح الخريطة</a></span></div><div>بدون رسوم اشتراك أو تسجيل</div></div>
     <div class="sponsor"><small>تحت رعاية</small><strong>👑 عمر اشرف 👑</strong></div><a class="btn" href="#/register">سجّل فريقك</a></section>`;
   if (!ms.length) { app.innerHTML = hero + `<div class="panel">لم يتم اختيار الفرق بعد. سيظهر الجدول هنا فور إعلان الفرق الثمانية.</div>`; return; }
   const feat = ms.find(x=>x.status==='live') || [...ms].filter(x=>x.status==='done').sort((a,b)=>b.id-a.id)[0] || ms.find(x=>x.team_a&&x.team_b);
@@ -240,8 +242,8 @@ function authForm(){
 async function register(){
   const { data: mine } = session ? await sb.from('teams').select('id,name,status,admin_message').maybeSingle() : { data: null };
   if (mine) return showShare(mine.id, mine.name, false, mine);
-  const roles = ['الكابتن', ...[1,2,3,4,5].map(i=>'اللاعب '+i)];
-  app.innerHTML = `<h2>تسجيل فريق</h2>${session?'':'<p>سبق وسجّلت؟ <a href="#/login" style="color:var(--y)">ادخل لمتابعة طلبك</a></p>'}<p style="color:var(--mute)">يجب إدخال بيانات الكابتن و5 لاعبين (6 أفراد). الرقم القومي (14 رقمًا) وصورة البطاقة إلزاميان لكل فرد.</p>
+  const roles = ['الكابتن', ...[1,2,3,4,5].map(i=>'اللاعب '+i), 'احتياطي 1 (اختياري)', 'احتياطي 2 (اختياري)'];
+  app.innerHTML = `<h2>تسجيل فريق</h2>${session?'':'<p>سبق وسجّلت؟ <a href="#/login" style="color:var(--y)">ادخل لمتابعة طلبك</a></p>'}<p style="color:var(--mute)">يجب إدخال بيانات الكابتن و5 لاعبين (6 أفراد). الرقم القومي (14 رقمًا) وصورة البطاقة إلزاميان لكل فرد. يمكنك إضافة لاعبَين احتياطيَّين (اختياري)، ويمكن تركهما فارغَين تمامًا.</p>
   <div class="panel"><div class="grid"><div><label>اسم الفريق</label><input type="text" id="tn" maxlength="40"></div>
   <div><label>هاتف الكابتن</label><input type="tel" id="ph" placeholder="01xxxxxxxxx"></div>${session?'':'<div><label>رقم سري من 6 أرقام (لمتابعة طلبك لاحقًا)</label><input type="text" id="pin" inputmode="numeric" maxlength="6" placeholder="123456" autocomplete="new-password"></div>'}</div></div>
   <div class="grid">${roles.map((r,i)=>`<div class="panel member" id="mb${i}"><b>${r}</b>
@@ -252,7 +254,7 @@ async function register(){
   <div class="msg" id="fe" hidden></div>
   <button class="btn" id="sendBtn" disabled>إرسال الطلب</button> <span id="st" style="color:var(--mute)"></span>`;
   const cards = [...document.querySelectorAll('.member')], taken = new Set();
-  const ok = new Array(6).fill(false);
+  const ok = new Array(8).fill(false);
   async function check(){
     const ids = cards.map(c=>arDigits(c.querySelector('.nid').value.trim()));
     const valid = ids.filter(validNid);
@@ -264,6 +266,9 @@ async function register(){
       else if (taken.has(id)) m = 'هذا الرقم مسجل بالفعل في فريق آخر';
       e.textContent = m;
       const full = c.querySelector('.nm').value.trim().length>=3 && validNid(id) && !m && c.querySelector('.ph').files.length;
+      const opt = i >= 6, touched = opt && (c.querySelector('.nm').value.trim() || id || c.querySelector('.ph').files.length);
+      if (opt && !touched) { ok[i] = true; c.className = 'panel member'; return; }
+      if (opt && !full && !m) e.textContent = 'أكمل بيانات اللاعب (الاسم والرقم القومي والصورة) أو اتركه فارغًا';
       ok[i] = !!full; c.className = 'panel member ' + (m?'bad':full?'ok':'');
     });
     const missing = [];
@@ -287,6 +292,7 @@ async function register(){
       const uid = session.user.id, members = [];
       for (const c of cards) {
         const nid = arDigits(c.querySelector('.nid').value.trim()), f = c.querySelector('.ph').files[0];
+        if (cards.indexOf(c) >= 6 && !nid && !f && !c.querySelector('.nm').value.trim()) continue;   // empty reserve
         const path = `${uid}/${nid}-${Date.now()}`;
         const blob = await shrink(f); const up = await sb.storage.from('id-photos').upload(path, blob, {contentType:blob.type||f.type});
         if (up.error) throw up.error;
@@ -321,7 +327,7 @@ async function teamPage(id){
   if (!data) { app.innerHTML = '<div class="panel">لم يتم العثور على الفريق.</div>'; return; }
   const s = {pending:'قيد المراجعة',selected:'تم اختياره للبطولة 🎉',rejected:'تم رفض الطلب'}[data.status];
   app.innerHTML = `<div class="panel" style="max-width:520px;margin:20px auto;text-align:center"><h2>${esc(data.name)}</h2>
-    <p>الحالة: <b class="${data.status==='selected'?'good':''}">${s}</b></p>${data.admin_message?'<div class="msg'+(data.status==='rejected'?'':' okm')+'">'+esc(data.admin_message)+'</div>':''}<p>الأفراد: ${data.members}/6 · تم التحقق من هوية ${data.verified}</p></div>`;
+    <p>الحالة: <b class="${data.status==='selected'?'good':''}">${s}</b></p>${data.admin_message?'<div class="msg'+(data.status==='rejected'?'':' okm')+'">'+esc(data.admin_message)+'</div>':''}<p>عدد الأفراد: ${data.members} · تم التحقق من هوية ${data.verified}</p></div>`;
 }
 
 /* ================= ADMIN ================= */
@@ -336,7 +342,7 @@ async function admin(){
   ${teams.map(t=>`<div class="panel"><label style="display:flex;gap:10px;align-items:center;margin:0;color:var(--ink);font-size:1.05rem">
     <input type="checkbox" class="pick" value="${t.id}" ${t.status==='selected'?'checked':''} style="width:auto"> <b>${esc(t.name)}</b>
     <span class="tag ${t.status}">${ST[t.status]}</span> <span style="color:var(--mute)">${esc(t.phone)}</span></label>
-    <div class="scroll"><table class="tbl">${t.members.map(m=>`<tr><td>${m.role==='captain'?'كابتن':'لاعب'}</td><td>${esc(m.full_name)}</td><td dir="ltr" style="text-align:end">${esc(m.national_id)}</td>
+    <div class="scroll"><table class="tbl">${t.members.map(m=>`<tr><td>${{captain:'كابتن',player:'لاعب',reserve:'احتياطي'}[m.role]||m.role}</td><td>${esc(m.full_name)}</td><td dir="ltr" style="text-align:end">${esc(m.national_id)}</td>
     <td><button class="btn ghost ph" data-p="${esc(m.id_photo_path)}">الصورة</button>
     <label style="display:inline;margin:0"><input type="checkbox" class="vf" data-id="${m.id}" ${m.verified?'checked':''} style="width:auto"> تم التحقق</label></td></tr>`).join('')}</table></div>${decRow(t)}</div>`).join('')}
   <button class="btn" id="mk">اعتماد الفرق الثمانية وإنشاء الجدول</button><div class="err" id="ae"></div>
